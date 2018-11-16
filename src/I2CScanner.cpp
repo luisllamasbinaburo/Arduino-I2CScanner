@@ -1,10 +1,3 @@
-/***************************************************
-Copyright (c) 2018 Luis Llamas
-(www.luisllamas.es)
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License
- ****************************************************/
- 
 #include "I2CScanner.h"
 
 void I2CScanner::printHeader()
@@ -91,4 +84,58 @@ bool I2CScanner::Scan(byte addreses[], uint8_t length)
 
 	printResult();
 	return Devices_Count > 0;
+}
+
+bool I2CScanner::Check()
+{
+	Devices_Count = 0;
+	for (byte address = Low_Address; address < High_Address; address++)
+		if(scan(address) == 0) Devices_Count++;
+	
+	return Devices_Count > 0;
+}
+
+bool I2CScanner::Check(byte address)
+{
+	Devices_Count = 0;
+	if (scan(address) == 0) Devices_Count++;
+		
+	return Devices_Count > 0;
+}
+
+bool I2CScanner::Check(byte addreses[], uint8_t length)
+{
+	Devices_Count = 0;
+	for (byte index = 0; index < length; index++)
+	{
+		byte address = addreses[index];
+		if (scan(address) == 0) Devices_Count++;
+	}
+
+	return Devices_Count > 0;
+}
+
+void I2CScanner::Execute(I2C_Callback callback)
+{
+	for (byte address = Low_Address; address < High_Address; address++)
+	{
+		byte error = scan(address);
+		if (error == 0 && callback != nullptr) callback(address);
+	}
+}
+
+void I2CScanner::Execute(byte address, I2C_Callback callback)
+{
+	byte error = scan(address);
+	if (error == 0 && callback != nullptr) callback(address);
+}
+
+void I2CScanner::Execute(byte addreses[], uint8_t length, I2C_Callback callback)
+{
+	for (byte index = 0; index < length; index++)
+	{
+		byte address = addreses[index];
+		byte error = scan(address);
+		if (error == 0 && callback != nullptr) callback(address);
+	}
 }

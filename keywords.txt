@@ -12,6 +12,8 @@ I2CScanner	KEYWORD1
 #######################################
 Init	KEYWORD2
 Scan	KEYWORD2
+Check	KEYWORD2
+Execute	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
