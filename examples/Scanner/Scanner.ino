@@ -6,11 +6,17 @@ Unless required by applicable law or agreed to in writing, software distributed 
  ****************************************************/
  
  #include "I2CScanner.h"
+#include <Wire.h>
 
 I2CScanner scanner;
 
+//if you use ESP8266-01 with not default SDA and SCL pins, define these 2 lines, else delete them
+#define SDA_PIN 0
+#define SCL_PIN 2
+
 void setup() 
 {
+	Wire.pins(SDA_PIN, SCL_PIN);
 	Serial.begin(9600);
 	while (!Serial) {};
 
