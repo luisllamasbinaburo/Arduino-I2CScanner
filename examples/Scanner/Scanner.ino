@@ -10,13 +10,10 @@ Unless required by applicable law or agreed to in writing, software distributed 
 
 I2CScanner scanner;
 
-//if you use ESP8266-01 with not default SDA and SCL pins, define these 2 lines, else delete them
-#define SDA_PIN 0
-#define SCL_PIN 2
-
 void setup() 
-{
-	Wire.pins(SDA_PIN, SCL_PIN);
+{	
+	//uncomment the next line if you use custom sda and scl pins for example with ESP8266-01 (sda = 0, scl = 2)
+	//Wire.begin(0, 2); 
 	Serial.begin(9600);
 	while (!Serial) {};
 
